@@ -52,22 +52,22 @@ class Venda:
 
 # exemplo:
 
-produto1 = Produto(preco=12.0, descricao="Pirulito", validade="17/03/2024")
+produto1: Produto = Produto(preco=12.0, descricao="Pirulito", validade="17/03/2024")     # noqa: E501
 print(f'preco de produto1 = {produto1.preco}')
-produto2 = Produto(preco=5, descricao="Bala", validade="18/04/2024")
+produto2: Produto = Produto(preco=5, descricao="Bala", validade="18/04/2024")     # noqa: E501
 print(f'preco de produto2 = {produto2.preco}')
 
 
-item1 = Item(produto=produto1, quantidade=2)
+item1: Item = Item(produto=produto1, quantidade=2)
 print(f'total do item1 = {item1.total}')
 
-item2 = Item(produto=produto2, quantidade=3)
+item2: Item = Item(produto=produto2, quantidade=3)
 print(f'total do item2 = {item2.total}')
 
-minhavenda = Venda(data="13/03/2023", itens=[item1, item2])
+minhavenda: Venda = Venda(data="13/03/2023", itens=[item1, item2])
 minhavenda.exibir_total()
 
-item3 = Item(produto=produto2, quantidade=4)
+item3: Item = Item(produto=produto2, quantidade=4)
 print(f'total do item3 = {item3.total}')
 
 minhavenda.adicionar_item(item3)
