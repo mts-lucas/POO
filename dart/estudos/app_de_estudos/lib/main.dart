@@ -2,20 +2,39 @@ import 'package:flutter/material.dart';
 
 void main() {
   MaterialApp app = MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: Scaffold(
-          appBar: AppBar(title: Text("Hello World")),
-          body: Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // adicionando o mainAxisAlignment
-                  children: [
-                Text("Texto1"),
-                Text("Texto2"),
-                Text("Texto3"),
-                Text("Texto4")
-              ])),
-          bottomNavigationBar: Text("Botao")));
+    theme: ThemeData(primarySwatch: Colors.deepPurple),
+    home: Scaffold(
+        appBar: AppBar(title: Text("Hello World")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // adicionando o mainAxisAlignment
+            children: [
+              Text("Texto1"),
+              Text("Texto2"),
+              Text("Texto3"),
+              Text("Texto4"),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "person",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_basket),
+              label: "shopping",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: "favorite",
+            ),
+          ],
+        )),
+  );
 
   runApp(app);
 }
