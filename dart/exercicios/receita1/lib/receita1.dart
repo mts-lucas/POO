@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 MaterialApp rec1 = MaterialApp(
-    theme: ThemeData(primarySwatch: Colors.indigo),
-    home: Scaffold(
+  theme: ThemeData(primarySwatch: Colors.indigo, fontFamily: 'comic-sans', brightness: Brightness.dark,),
+  home: Scaffold(
       appBar: AppBar(
         title: Text("Hello World"),
         centerTitle: true,
@@ -20,8 +20,21 @@ MaterialApp rec1 = MaterialApp(
           ],
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const <Widget>[],
-      ),
-    ));
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "person",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_basket),
+            label: "shopping",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: "favorite",
+          ),
+        ],
+      )),
+);
