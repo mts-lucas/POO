@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'photos.dart';
 
 MaterialApp rec1 = MaterialApp(
-  theme: ThemeData(primarySwatch: Colors.indigo, fontFamily: 'comic-sans', brightness: Brightness.dark,),
+  theme: ThemeData(
+    primarySwatch: Colors.indigo,
+    fontFamily: 'comic-sans',
+    brightness: Brightness.dark,
+  ),
   home: Scaffold(
       appBar: AppBar(
         title: Text("Hello World"),
@@ -17,6 +22,11 @@ MaterialApp rec1 = MaterialApp(
             Text("Texto2", style: TextStyle(color: Colors.red)),
             Text("Texto3", style: TextStyle(fontWeight: FontWeight.bold)),
             Text("Texto4", style: TextStyle(color: Colors.red)),
+            FadeInImage(
+              image: imageTest,
+              height: 300,
+              placeholder: imageTest,
+            ),
           ],
         ),
       ),
