@@ -1,5 +1,20 @@
 import 'package:flutter/material.dart';
 
+class NewAppBar extends StatelessWidget implements PreferredSizeWidget {
+  NewAppBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text("Dicas"),
+      centerTitle: true,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
 class NewNavBar extends StatelessWidget {
   NewNavBar();
 
@@ -25,9 +40,9 @@ class NewAppContent extends StatelessWidget {
   NewAppContent();
 
   @override
-  Widget makeContent(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Dicas")),
+      appBar: NewAppBar(),
       body: Column(children: [
         Expanded(
           child: Text("La Fin Du Monde - Bock - 65 ibu"),
@@ -42,33 +57,13 @@ class NewAppContent extends StatelessWidget {
       bottomNavigationBar: NewNavBar(),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
 }
 
 void main() {
   MaterialApp app = MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: Scaffold(
-        appBar: AppBar(title: Text("Dicas")),
-        body: Column(children: [
-          Expanded(
-            child: Text("La Fin Du Monde - Bock - 65 ibu"),
-          ),
-          Expanded(
-            child: Text("Sapporo Premiume - Sour Ale - 54 ibu"),
-          ),
-          Expanded(
-            child: Text("Duvel - Pilsner - 82 ibu"),
-          )
-        ]),
-        bottomNavigationBar: NewNavBar(),
-      ));
+      home: NewAppContent());
 
   runApp(app);
 }
