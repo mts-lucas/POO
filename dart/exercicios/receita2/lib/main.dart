@@ -21,8 +21,38 @@ class NewNavBar extends StatelessWidget {
   }
 }
 
+class NewAppContent extends StatelessWidget {
+  NewAppContent();
+
+  @override
+  Widget makeContent(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Dicas")),
+      body: Column(children: [
+        Expanded(
+          child: Text("La Fin Du Monde - Bock - 65 ibu"),
+        ),
+        Expanded(
+          child: Text("Sapporo Premiume - Sour Ale - 54 ibu"),
+        ),
+        Expanded(
+          child: Text("Duvel - Pilsner - 82 ibu"),
+        )
+      ]),
+      bottomNavigationBar: NewNavBar(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
 void main() {
   MaterialApp app = MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       home: Scaffold(
         appBar: AppBar(title: Text("Dicas")),
