@@ -16,7 +16,8 @@ class NewAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class NewNavBar extends StatelessWidget {
-  NewNavBar();
+  List<Icon> icons;
+  NewNavBar({this.icons = const []});
 
   void botaoFoiTocado(int index) {
     print("Tocaram no botão $index");
@@ -24,15 +25,11 @@ class NewNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(onTap: botaoFoiTocado, items: const [
-      BottomNavigationBarItem(
-        label: "Cafés",
-        icon: Icon(Icons.coffee_outlined),
-      ),
-      BottomNavigationBarItem(
-          label: "Cervejas", icon: Icon(Icons.local_drink_outlined)),
-      BottomNavigationBarItem(label: "Nações", icon: Icon(Icons.flag_outlined))
-    ]);
+    return BottomNavigationBar(
+        onTap: botaoFoiTocado,
+        items: icons
+            .map((item) => BottomNavigationBarItem(icon: item, label: " "))
+            .toList());
   }
 }
 
@@ -43,7 +40,7 @@ class NewAppContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NewAppBar(),
-      body: Column(children: [
+      body: Column(children: const [
         Expanded(
           child: Text("La Fin Du Monde - Bock - 65 ibu"),
         ),
@@ -54,7 +51,13 @@ class NewAppContent extends StatelessWidget {
           child: Text("Duvel - Pilsner - 82 ibu"),
         )
       ]),
-      bottomNavigationBar: NewNavBar(),
+      bottomNavigationBar: NewNavBar(
+        icons: const [
+          Icon(Icons.accessibility),
+          Icon(Icons.book),
+          Icon(Icons.play_arrow),
+        ],
+      ),
     );
   }
 }
@@ -66,7 +69,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.deepPurple),
+        theme: ThemeData(
+            primarySwatch: Colors.deepPurple, brightness: Brightness.dark),
         home: NewAppContent());
   }
 }
