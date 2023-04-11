@@ -59,11 +59,19 @@ class NewAppContent extends StatelessWidget {
   }
 }
 
-void main() {
-  MaterialApp app = MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: NewAppContent());
+class MyApp extends StatelessWidget {
+  MyApp();
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.deepPurple),
+        home: NewAppContent());
+  }
+}
+
+void main() {
+  MyApp app = MyApp();
   runApp(app);
 }
