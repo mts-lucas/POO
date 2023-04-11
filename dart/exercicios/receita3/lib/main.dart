@@ -10,19 +10,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.deepPurple),
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          iconTheme: IconThemeData(color: Colors.green),
+        ),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             title: const Text("Dicas"),
           ),
-          body: DataBodyWidget(objects: [
+          body: DataBodyWidget(objects: const [
             "La Fin Du Monde - Bock - 65 ibu",
             "Sapporo Premiume - Sour Ale - 54 ibu",
             "Duvel - Pilsner - 82 ibu"
           ]),
           bottomNavigationBar: NewNavBar(
-            Newicons: [
+            Newicons: const [
               Icon(Icons.home),
               Icon(Icons.search),
               Icon(Icons.favorite),
@@ -45,6 +48,7 @@ class NewNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
         onTap: botaoFoiTocado,
+        // fixedColor: Colors.green,
         items: Newicons.map(
             (icn) => BottomNavigationBarItem(label: " ", icon: icn)).toList());
   }
