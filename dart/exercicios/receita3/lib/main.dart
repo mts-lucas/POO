@@ -21,13 +21,21 @@ class MyApp extends StatelessWidget {
             "Sapporo Premiume - Sour Ale - 54 ibu",
             "Duvel - Pilsner - 82 ibu"
           ]),
-          bottomNavigationBar: NewNavBar(),
+          bottomNavigationBar: NewNavBar(
+            Newicons: [
+              Icon(Icons.home),
+              Icon(Icons.search),
+              Icon(Icons.favorite),
+              Icon(Icons.person),
+            ],
+          ),
         ));
   }
 }
 
 class NewNavBar extends StatelessWidget {
-  NewNavBar();
+  List<Icon> Newicons;
+  NewNavBar({this.Newicons = const []});
 
   void botaoFoiTocado(int index) {
     print("Tocaram no botão $index");
@@ -35,15 +43,10 @@ class NewNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(onTap: botaoFoiTocado, items: const [
-      BottomNavigationBarItem(
-        label: "Cafés",
-        icon: Icon(Icons.coffee_outlined),
-      ),
-      BottomNavigationBarItem(
-          label: "Cervejas", icon: Icon(Icons.local_drink_outlined)),
-      BottomNavigationBarItem(label: "Nações", icon: Icon(Icons.flag_outlined))
-    ]);
+    return BottomNavigationBar(
+        onTap: botaoFoiTocado,
+        items: Newicons.map(
+            (icn) => BottomNavigationBarItem(label: " ", icon: icn)).toList());
   }
 }
 
@@ -52,16 +55,19 @@ class DataBodyWidget extends StatelessWidget {
 
   DataBodyWidget({this.objects = const []});
 
+  Expanded processarUmElemento(String obj) {
+    return Expanded(
+      child: Center(child: Text(obj)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Expanded> allTheLines = [];
-
-    for (var obj in objects) {
-      allTheLines.add(Expanded(
-        child: Center(child: Text(obj)),
-      ));
-    }
-
-    return Column(children: allTheLines);
+    return Column(
+        children: objects
+            .map((obj) => Expanded(
+                  child: Center(child: Text(obj)),
+                ))
+            .toList());
   }
 }
