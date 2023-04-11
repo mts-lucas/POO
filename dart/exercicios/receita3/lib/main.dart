@@ -44,20 +44,20 @@ class NewNavBar extends StatelessWidget {
 }
 
 class DataBodyWidget extends StatelessWidget {
-  DataBodyWidget();
+  List<String> objects;
+
+  DataBodyWidget({this.objects = const []});
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(
-        child: Text("La Fin Du Monde - Bock - 65 ibu"),
-      ),
-      Expanded(
-        child: Text("Sapporo Premiume - Sour Ale - 54 ibu"),
-      ),
-      Expanded(
-        child: Text("Duvel - Pilsner - 82 ibu"),
-      )
-    ]);
+    List<Expanded> allTheLines = [];
+
+    for (var obj in objects) {
+      allTheLines.add(Expanded(
+        child: Center(child: Text(obj)),
+      ));
+    }
+
+    return Column(children: allTheLines);
   }
 }
