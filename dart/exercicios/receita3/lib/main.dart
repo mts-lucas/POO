@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'mydrawer.dart';
 
 void main() {
   MyApp app = MyApp();
@@ -17,10 +16,8 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          drawer: NavDrawer(),
-          appBar: AppBar(
-            title: const Text("Dicas"),
-          ),
+          // drawer: NavDrawer(),
+          appBar: MyAppBar(),
           body: DataBodyWidget(objects: const [
             "La Fin Du Monde - Bock - 65 ibu",
             "Sapporo Premiume - Sour Ale - 54 ibu",
@@ -79,5 +76,37 @@ class DataBodyWidget extends StatelessWidget {
 }
 
 class MyAppBar extends AppBar {
-  MyAppBar();
+  MyAppBar({
+    Key? key,
+  }) : super(
+            key: key,
+            title: const Text("Dicas"),
+            backgroundColor: Colors.deepPurple,
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (context) => const [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text('Red'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: Text('Purple'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 2,
+                    child: Text('Blue'),
+                  ),
+                ],
+                onSelected: (value) {
+                  if (value == 0) {
+                    print("Red is selected");
+                  } else if (value == 1) {
+                    print("Purple is selected");
+                  } else if (value == 2) {
+                    print("Blue is selected");
+                  }
+                },
+              ),
+            ]);
 }
