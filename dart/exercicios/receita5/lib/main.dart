@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 var dataObjects = [];
 
@@ -24,18 +25,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NewNavBar extends StatelessWidget {
+class NewNavBar extends HookWidget {
   NewNavBar();
-
-  void buttonTapped(int index) {
-    print("Tocaram no botão $index");
-  }
 
   @override
   Widget build(BuildContext context) {
+    var state = useState(1);
+
     return BottomNavigationBar(
-        onTap: buttonTapped,
-        currentIndex: 1,
+        onTap: (index) {
+          state.value = index;
+        },
+        currentIndex: state.value,
         items: const [
           BottomNavigationBarItem(
             label: "Cafés",
