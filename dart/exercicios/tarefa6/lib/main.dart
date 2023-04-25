@@ -35,9 +35,17 @@ class MyCustomForm extends StatefulWidget {
 }
 
 class MyCustomFormState extends State<MyCustomForm> {
-
   var _opcao;
+  late double _valor;
+  bool? _aceitar = false;
+  var _genero;
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _valor = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +97,61 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
+          ),
+          CheckboxListTile(
+            title: Text('Aceita tomar uma com fabricio?'),
+            value: _aceitar,
+            onChanged: (value) {
+              setState(() {
+                _aceitar = value;
+              });
+            },
+          ),
+          Text('De 0 a 100, quanto alcolizado ficara?'),
+          Slider(
+            value: _valor,
+            onChanged: (double newValue) {
+              setState(() {
+                _valor = newValue;
+              });
+            },
+            min: 0,
+            max: 100,
+          ),
+          Text('Gênero:'),
+          Row(
+            children: [
+              Radio(
+                value: 'masculino',
+                groupValue: _genero,
+                onChanged: (value) {
+                  setState(() {
+                    _genero = value;
+                  });
+                },
+              ),
+              Text('Masculino'),
+              Radio(
+                value: 'feminino',
+                groupValue: _genero,
+                onChanged: (value) {
+                  setState(() {
+                    _genero = value;
+                  });
+                },
+              ),
+              Text('Feminino'),
+              Radio(
+                value: 'outros',
+                groupValue: _genero,
+                onChanged: (value) {
+                  setState(() {
+                    _genero = value;
+                  });
+                },
+              ),
+              Text('outros'),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
