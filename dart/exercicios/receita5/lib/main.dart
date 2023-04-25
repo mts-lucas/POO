@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
             title: const Text("Dicas"),
           ),
           body: DataTableWidget(jsonObjects: dataObjects),
-          bottomNavigationBar: NewNavBar(),
+          bottomNavigationBar: MyNavBar(),
         ));
   }
 }
@@ -76,5 +76,41 @@ class DataTableWidget extends StatelessWidget {
                     .map((propName) => DataCell(Text(obj[propName])))
                     .toList()))
             .toList());
+  }
+}
+
+class MyNavBar extends StatefulWidget {
+  @override
+  State<MyNavBar> createState() => _MyNavBarState();
+}
+
+class _MyNavBarState extends State<MyNavBar> {
+  int _state = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    print("no build da classe MyNavBar");
+    return BottomNavigationBar(
+      onTap: (index) {
+        setState(() {
+          _state = index;
+        });
+      },
+      currentIndex: _state,
+      items: const [
+        BottomNavigationBarItem(
+          label: "Cafés",
+          icon: Icon(Icons.coffee_outlined),
+        ),
+        BottomNavigationBarItem(
+          label: "Cervejas",
+          icon: Icon(Icons.local_drink_outlined),
+        ),
+        BottomNavigationBarItem(
+          label: "Nações",
+          icon: Icon(Icons.flag_outlined),
+        ),
+      ],
+    );
   }
 }
