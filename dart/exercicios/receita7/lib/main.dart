@@ -12,7 +12,9 @@ class DataService {
   void carregar(index) {
     var res = null;
 
+    if (index == 0) res = carregarCafes();
     if (index == 1) res = carregarCervejas();
+    if (index == 2) res = carregarNacoes();
   }
 
   Future<void> carregarCervejas() async {
@@ -27,6 +29,34 @@ class DataService {
     var beersJson = jsonDecode(jsonString);
 
     tableStateNotifier.value = beersJson;
+  }
+
+  Future<void> carregarCafes() async {
+    var coffesUri = Uri(
+        scheme: 'https',
+        host: 'random-data-api.com',
+        path: 'api/coffee/random_coffee',
+        queryParameters: {'size': '5'});
+
+    var jsonString = await http.read(coffesUri);
+
+    var coffesJson = jsonDecode(jsonString);
+
+    tableStateNotifier.value = coffesJson;
+  }
+
+  Future<void> carregarNacoes() async {
+    var nationsUri = Uri(
+        scheme: 'https',
+        host: 'random-data-api.com',
+        path: 'api/nation/random_nation',
+        queryParameters: {'size': '5'});
+
+    var jsonString = await http.read(nationsUri);
+
+    var nationsJson = jsonDecode(jsonString);
+
+    tableStateNotifier.value = nationsJson;
   }
 }
 
