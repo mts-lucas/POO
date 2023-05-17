@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 class DataService {
   final ValueNotifier<List> tableStateNotifier = new ValueNotifier([]);
   final ValueNotifier<List<String>> columnNamesNotifier = new ValueNotifier([]);
@@ -73,8 +75,9 @@ class DataService {
     var nationsJson = jsonDecode(jsonString);
 
     tableStateNotifier.value = nationsJson;
-    columnNamesNotifier.value = ["Nationality", "Language", "Capital"];
     propertyNamesNotifier.value = ["nationality", "language", "capital"];
+    columnNamesNotifier.value = ["Nação", "Idioma", "Capital"];
+    
   }
 }
 
@@ -119,10 +122,10 @@ class MyApp extends StatelessWidget {
           body: ValueListenableBuilder(
               valueListenable: dataService.tableStateNotifier,
               builder: (_, value, __) {
-                return DataTableWidget(
-                    jsonObjects: value,
-                    propertyNames: ["name", "style", "ibu"],
-                    columnNames: ["Nome", "Estilo", "IBU"]);
+                if (value.isEmpty) {
+                  return const SpinKitSpinningLines(color: Colors.blueAccent);
+                }
+                return DataTableWidget(jsonObjects: value);
               }),
           bottomNavigationBar:
               NewNavBar(itemSelectedCallback: dataService.carregar),
@@ -176,18 +179,20 @@ class DataTableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final columnNames = dataService.columnNamesNotifier.value;
     final propertyNames = dataService.propertyNamesNotifier.value;
-    return DataTable(
-        columns: columnNames
-            .map((name) => DataColumn(
-                label: Expanded(
-                    child: Text(name,
-                        style: TextStyle(fontStyle: FontStyle.italic)))))
-            .toList(),
-        rows: jsonObjects
-            .map((obj) => DataRow(
-                cells: propertyNames
-                    .map((propName) => DataCell(Text(obj[propName])))
-                    .toList()))
-            .toList());
+    return ListView(children: [
+      DataTable(
+          columns: columnNames
+              .map((name) => DataColumn(
+                  label: Expanded(
+                      child: Text(name,
+                          style: TextStyle(fontStyle: FontStyle.italic)))))
+              .toList(),
+          rows: jsonObjects
+              .map((obj) => DataRow(
+                  cells: propertyNames
+                      .map((propName) => DataCell(Text(obj[propName])))
+                      .toList()))
+              .toList())
+    ]);
   }
 }
