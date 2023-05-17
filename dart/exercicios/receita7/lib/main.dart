@@ -8,6 +8,9 @@ import 'dart:convert';
 
 class DataService {
   final ValueNotifier<List> tableStateNotifier = new ValueNotifier([]);
+  final ValueNotifier<List<String>> columnNamesNotifier = new ValueNotifier([]);
+  final ValueNotifier<List<String>> propertyNamesNotifier =
+      new ValueNotifier([]);
 
   void carregar(index) {
     var res = null;
@@ -29,6 +32,8 @@ class DataService {
     var beersJson = jsonDecode(jsonString);
 
     tableStateNotifier.value = beersJson;
+    propertyNamesNotifier.value = ["name", "style", "ibu"];
+    columnNamesNotifier.value = ["Nome", "Estilo", "IBU"];
   }
 
   Future<void> carregarCafes() async {
@@ -43,6 +48,8 @@ class DataService {
     var coffesJson = jsonDecode(jsonString);
 
     tableStateNotifier.value = coffesJson;
+    propertyNamesNotifier.value = ["blend_name", "origin", "intensifier"];
+    columnNamesNotifier.value = ["Nome do Mix", "Origem", "Intensidade"];
   }
 
   Future<void> carregarNacoes() async {
@@ -57,6 +64,8 @@ class DataService {
     var nationsJson = jsonDecode(jsonString);
 
     tableStateNotifier.value = nationsJson;
+    columnNamesNotifier.value = ["Nationality", "Language", "Capital"];
+    propertyNamesNotifier.value = ["nationality", "language", "capital"];
   }
 }
 
@@ -136,6 +145,8 @@ class DataTableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final columnNames = dataService.columnNamesNotifier.value;
+    final propertyNames = dataService.propertyNamesNotifier.value;
     return DataTable(
         columns: columnNames
             .map((name) => DataColumn(
