@@ -11,6 +11,11 @@ class DataService {
   final ValueNotifier<List<String>> columnNamesNotifier = new ValueNotifier([]);
   final ValueNotifier<List<String>> propertyNamesNotifier =
       new ValueNotifier([]);
+  int _querySize = 5;
+
+  void setQuerySize(int newSize) {
+    _querySize = newSize;
+  }
 
   void carregar(index) {
     var res = null;
@@ -20,12 +25,16 @@ class DataService {
     if (index == 2) res = carregarNacoes();
   }
 
+  DataService() {
+    carregarCervejas();
+  }
+
   Future<void> carregarCervejas() async {
     var beersUri = Uri(
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/beer/random_beer',
-        queryParameters: {'size': '5'});
+        queryParameters: {'size': '$_querySize'});
 
     var jsonString = await http.read(beersUri);
 
@@ -41,7 +50,7 @@ class DataService {
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/coffee/random_coffee',
-        queryParameters: {'size': '5'});
+        queryParameters: {'size': '$_querySize'});
 
     var jsonString = await http.read(coffesUri);
 
@@ -57,7 +66,7 @@ class DataService {
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/nation/random_nation',
-        queryParameters: {'size': '5'});
+        queryParameters: {'size': '$_querySize'});
 
     var jsonString = await http.read(nationsUri);
 
@@ -86,6 +95,26 @@ class MyApp extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(
             title: const Text("Dicas"),
+            actions: [
+              PopupMenuButton<int>(
+                  onSelected: (int newSize) {
+                    dataService.setQuerySize(newSize);
+                  },
+                  itemBuilder: (BuildContext context) => const [
+                        PopupMenuItem<int>(
+                          value: 5,
+                          child: Text('Size: 5'),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 10,
+                          child: Text('Size: 10'),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 15,
+                          child: Text('Size: 15'),
+                        ),
+                      ]),
+            ],
           ),
           body: ValueListenableBuilder(
               valueListenable: dataService.tableStateNotifier,
