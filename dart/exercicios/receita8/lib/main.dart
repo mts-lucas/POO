@@ -6,11 +6,19 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
+enum TableStatus { idle, loading, ready, error }
+
 class DataService {
-  final ValueNotifier<List> tableStateNotifier = new ValueNotifier([]);
+  final ValueNotifier<Map<String, dynamic>> tableStateNotifier =
+      ValueNotifier({'status': TableStatus.idle, 'dataObjects': []});
 
   void carregar(index) {
     final funcoes = [carregarCafes, carregarCervejas, carregarNacoes];
+
+    tableStateNotifier.value = {
+      'status': TableStatus.loading,
+      'dataObjects': []
+    };
 
     funcoes[index]();
   }
@@ -23,18 +31,22 @@ class DataService {
     return;
   }
 
-  Future<void> carregarCervejas() async {
+  void carregarCervejas() {
     var beersUri = Uri(
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/beer/random_beer',
         queryParameters: {'size': '5'});
 
-    var jsonString = await http.read(beersUri);
+    http.read(beersUri).then((jsonString) {
+      var beersJson = jsonDecode(jsonString);
 
-    var beersJson = jsonDecode(jsonString);
-
-    tableStateNotifier.value = beersJson;
+      tableStateNotifier.value = {
+        'status': TableStatus.ready,
+        'dataObjects': beersJson,
+        'propertyNames': ["name", "style", "ibu"]
+      };
+    });
   }
 }
 
@@ -59,10 +71,24 @@ class MyApp extends StatelessWidget {
           body: ValueListenableBuilder(
               valueListenable: dataService.tableStateNotifier,
               builder: (_, value, __) {
-                return DataTableWidget(
-                    jsonObjects: value,
-                    propertyNames: ["name", "style", "ibu"],
-                    columnNames: ["Nome", "Estilo", "IBU"]);
+                switch (value['status']) {
+                  case TableStatus.idle:
+                    return Text("Toque algum botão");
+
+                  case TableStatus.loading:
+                    return CircularProgressIndicator();
+
+                  case TableStatus.ready:
+                    return DataTableWidget(
+                        jsonObjects: value['dataObjects'],
+                        propertyNames: value['propertyNames'],
+                        columnNames: ["Nome", "Estilo", "IBU"]);
+
+                  case TableStatus.error:
+                    return Text("Lascou");
+                }
+
+                return Text("...");
               }),
           bottomNavigationBar:
               NewNavBar(itemSelectedCallback: dataService.carregar),
