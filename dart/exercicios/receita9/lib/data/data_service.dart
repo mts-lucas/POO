@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
+
 import 'dart:convert';
 
 enum TableStatus { idle, loading, ready, error }
@@ -7,6 +9,22 @@ enum TableStatus { idle, loading, ready, error }
 enum ItemType { beer, coffee, nation, none }
 
 class DataService {
+  static const MAX_N_ITEMS = 15;
+
+  static const MIN_N_ITEMS = 3;
+
+  static const DEFAULT_N_ITEMS = 7;
+
+  int _numberOfItems = DEFAULT_N_ITEMS;
+
+  set numberOfItems(n) {
+    _numberOfItems = n < 0
+        ? MIN_N_ITEMS
+        : n > MAX_N_ITEMS
+            ? MAX_N_ITEMS
+            : n;
+  }
+
   final ValueNotifier<Map<String, dynamic>> tableStateNotifier = ValueNotifier({
     'status': TableStatus.idle,
     'dataObjects': [],
@@ -36,7 +54,7 @@ class DataService {
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/coffee/random_coffee',
-        queryParameters: {'size': '10'});
+        queryParameters: {'size': '$_numberOfItems'});
 
     http.read(coffeesUri).then((jsonString) {
       var coffeesJson = jsonDecode(jsonString);
@@ -76,7 +94,7 @@ class DataService {
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/nation/random_nation',
-        queryParameters: {'size': '10'});
+        queryParameters: {'size': '$_numberOfItems'});
 
     http.read(nationsUri).then((jsonString) {
       var nationsJson = jsonDecode(jsonString);
@@ -123,7 +141,7 @@ class DataService {
         scheme: 'https',
         host: 'random-data-api.com',
         path: 'api/beer/random_beer',
-        queryParameters: {'size': '10'});
+        queryParameters: {'size': '$_numberOfItems'});
 
     http.read(beersUri).then((jsonString) {
       var beersJson = jsonDecode(jsonString);
