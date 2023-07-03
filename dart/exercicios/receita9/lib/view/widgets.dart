@@ -10,16 +10,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(title: const Text("Dicas"), actions: [
-            PopupMenuButton(
-              itemBuilder: (_) => [3, 7, 15]
-                  .map((num) => PopupMenuItem(
-                        value: num,
-                        child: Text("Carregar $num itens por vez"),
-                      ))
-                  .toList(),
-              onSelected: (number) {
-                dataService.numberOfItems = number;
-              },
+            MyPopUpMenu(
+              menuItems: const [3, 7, 15],
             )
           ]),
           body: ValueListenableBuilder(
@@ -108,5 +100,26 @@ class DataTableWidget extends StatelessWidget {
                     .map((propName) => DataCell(Text(obj[propName])))
                     .toList()))
             .toList());
+  }
+}
+
+class MyPopUpMenu extends StatelessWidget {
+  final List menuItems;
+  MyPopUpMenu({
+    this.menuItems = const [],
+  });
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      itemBuilder: (_) => menuItems
+          .map((num) => PopupMenuItem(
+                value: num,
+                child: Text("Carregar $num itens por vez"),
+              ))
+          .toList(),
+      onSelected: (number) {
+        dataService.numberOfItems = number;
+      },
+    );
   }
 }
