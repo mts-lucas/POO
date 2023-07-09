@@ -74,9 +74,11 @@ class DataService {
     final type = tableStateNotifier.value['itemType'];
 
     if (type == ItemType.beer && propriedade == "name") {
-      objetosOrdenados = ord.ordenarCervejasPorNomeCrescente(objetos);
+      objetosOrdenados =
+          ord.ordenarFuderoso(objetos, DecididorCervejaNomeCrescente());
     } else if (type == ItemType.beer && propriedade == "style") {
-      objetosOrdenados = ord.ordenarCervejasPorEstiloCrescente(objetos);
+      objetosOrdenados =
+          ord.ordenarFuderoso(objetos, DecididorCervejaEstiloCrescente());
     }
 
     emitirEstadoOrdenado(objetosOrdenados, propriedade);
@@ -154,3 +156,47 @@ class DataService {
 }
 
 final dataService = DataService();
+
+class DecididorCervejaNomeCrescente extends Decididor {
+  @override
+  bool precisaTrocarAtualPeloProximo(atual, proximo) {
+    try {
+      return atual["name"].compareTo(proximo["name"]) > 0;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+class DecididorCervejaEstiloCrescente extends Decididor {
+  @override
+  bool precisaTrocarAtualPeloProximo(atual, proximo) {
+    try {
+      return atual["style"].compareTo(proximo["style"]) > 0;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+class DecididorCervejaNomeDecrescente extends Decididor {
+  @override
+  bool precisaTrocarAtualPeloProximo(atual, proximo) {
+    try {
+      return atual["name"].compareTo(proximo["name"]) < 0;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+class DecididorCervejaEstiloDecrescente extends Decididor {
+  @override
+  bool precisaTrocarAtualPeloProximo(atual, proximo) {
+    try {
+      return atual["style"].compareTo(proximo["style"]) < 0;
+    } catch (error) {
+      return false;
+    }
+  }
+}
