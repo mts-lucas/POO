@@ -62,24 +62,16 @@ class DataService {
     carregarPorTipo(params[index]);
   }
 
-  void ordenarEstadoAtual(String propriedade) {
+  void ordenarEstadoAtual(final String propriedade) {
     List objetos = tableStateNotifier.value['dataObjects'] ?? [];
 
     if (objetos == []) return;
 
     Ordenador ord = Ordenador();
 
-    var objetosOrdenados = [];
+    Decididor d = FuncionarioDoMes(propriedade);
 
-    final type = tableStateNotifier.value['itemType'];
-
-    if (type == ItemType.beer && propriedade == "name") {
-      objetosOrdenados =
-          ord.ordenarFuderoso(objetos, DecididorCervejaNomeCrescente());
-    } else if (type == ItemType.beer && propriedade == "style") {
-      objetosOrdenados =
-          ord.ordenarFuderoso(objetos, DecididorCervejaEstiloCrescente());
-    }
+    var objetosOrdenados = ord.ordenarFuderoso(objetos, d);
 
     emitirEstadoOrdenado(objetosOrdenados, propriedade);
   }
@@ -157,44 +149,21 @@ class DataService {
 
 final dataService = DataService();
 
-class DecididorCervejaNomeCrescente extends Decididor {
-  @override
-  bool precisaTrocarAtualPeloProximo(atual, proximo) {
-    try {
-      return atual["name"].compareTo(proximo["name"]) > 0;
-    } catch (error) {
-      return false;
-    }
-  }
-}
+class FuncionarioDoMes extends Decididor {
+  final String propriedade;
 
-class DecididorCervejaEstiloCrescente extends Decididor {
-  @override
-  bool precisaTrocarAtualPeloProximo(atual, proximo) {
-    try {
-      return atual["style"].compareTo(proximo["style"]) > 0;
-    } catch (error) {
-      return false;
-    }
-  }
-}
+  final bool crescente;
 
-class DecididorCervejaNomeDecrescente extends Decididor {
-  @override
-  bool precisaTrocarAtualPeloProximo(atual, proximo) {
-    try {
-      return atual["name"].compareTo(proximo["name"]) < 0;
-    } catch (error) {
-      return false;
-    }
-  }
-}
+  FuncionarioDoMes(this.propriedade, [this.crescente = true]);
 
-class DecididorCervejaEstiloDecrescente extends Decididor {
   @override
   bool precisaTrocarAtualPeloProximo(atual, proximo) {
     try {
-      return atual["style"].compareTo(proximo["style"]) < 0;
+      final ordemCorreta = crescente ? [atual, proximo] : [proximo, atual];
+
+      return ordemCorreta[0][propriedade]
+              .compareTo(ordemCorreta[1][propriedade]) >
+          0;
     } catch (error) {
       return false;
     }
